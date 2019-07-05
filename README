@@ -1,0 +1,24 @@
+//Program
+Git was used for version control.
+The program has a simulated clock that generates processes at random times and those processes run for some random duration.
+The same simulated clock is used by both the parent and the child processes.
+The program can be run with ./P2 and can be run with different options. ./P2 -h will list the options and what they do.
+The first line in the input file is how much the clock increments by in nanoseconds in each iteration of the loop.
+Every line after indicates at which seconds and nanosecond the program should launch after. The third nuber indicates the duration of the process.
+
+//main.c
+main.c uses a switch statement and getopt for the different options.
+The same option can't be used twice but multiple different options can be used.
+The default input file is called input and the default ouptut file is called ouput. These defaults can be changed using the options.
+The default number of processes created is set to four. This can be changed with the options.
+The default number of processes that can be alive simultaneously is set to two. This can be changed using the options.
+main.c goes into a loop incrementing the simulated clock and will create processes at times read from the input file. The number of processes is based on the default max number of processes.
+main.c will only exit the loop once all children process have terminated.
+Signal handlers are used to ignore certain signals and so that the program can clean up shared memory if a signal interrupts the program before it can do the cleanup operations at the end of the program.
+main.c will write to a file of when a process is created and when it is terminated along with what pid of the child process.
+
+//child.c
+The child process is given a duration to run by the parent process.
+The child will go into a loop to check the simulated clock to see if enough time has passed so that it can terminate.
+Once the child has run for the elapsed time, it breaks out of its loop and the process ends.
+The parent process will use waitpid to catch when the child terminates.
